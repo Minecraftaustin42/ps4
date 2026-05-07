@@ -179,6 +179,23 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
+
+        .groups-revamp-card { border:1px solid #cfd7ff; background: linear-gradient(180deg,#fdfdff 0%,#f4f7ff 100%); }
+        .groups-hero { display:flex; justify-content:space-between; gap:16px; align-items:flex-start; background:linear-gradient(135deg,#3730a3,#4f46e5); color:#fff; border-radius:14px; padding:20px; margin-bottom:16px; }
+        .groups-hero h2 { margin:0 0 6px 0; }
+        .groups-hero p { margin:0; max-width:560px; color:#dfe5ff; }
+        .groups-hero-actions { display:flex; gap:10px; flex-wrap:wrap; }
+        .groups-search-panel { display:flex; gap:10px; margin-bottom:16px; }
+        .groups-highlight-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:12px; margin-bottom:18px; }
+        .groups-highlight-item { border:1px solid #d6ddff; border-radius:12px; background:#fff; padding:14px; }
+        .groups-highlight-item h4 { margin:0 0 8px 0; color:#30387a; }
+        .groups-highlight-item ul { margin:0; padding-left:18px; color:#5a628b; line-height:1.5; }
+        .groups-section-title { border-bottom:1px solid #dfe5ff; padding-bottom:7px; margin-bottom:10px; color:#32396a; }
+        .group-modal-box { border: 2px solid #b9c6ff; box-shadow: 0 18px 40px rgba(41,52,128,0.28); }
+        .group-modal-box::before, .group-modal-box::after { display:none; }
+        .group-modal-upload-row { display:flex; gap:10px; align-items:center; margin-bottom:12px; }
+        .group-modal-footer { display:flex; gap:10px; flex-wrap:wrap; }
+
         /* Custom Modal */
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
         .modal-box { position: relative; background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 10px 28px rgba(39,46,90,0.26); text-align: center; min-width: 300px; max-width: 90vw; overflow: hidden; }
@@ -938,53 +955,76 @@
 
         <!-- Groups View -->
        <div id="view-groups" class="view">
-            <div class="card">
-                <div class="card-title">
-                    <h2 style="margin: 0;">Discover Groups</h2>
-                    <div class="popup-character-group" style="margin:0;">
-                        <div class="popup-character"></div>
-                        <div class="popup-character alt"></div>
-                        <div class="popup-character"></div>
+            <div class="card groups-revamp-card">
+                <div class="groups-hero">
+                    <div>
+                        <h2>Group Hub</h2>
+                        <p>Build squads, run events, recruit talent, and post updates from one clean command center.</p>
                     </div>
-                    <div style="display: flex; gap: 10px;">
-                        <input type="text" id="group-search" class="form-control" style="width: 200px;" placeholder="Search Groups..." onkeydown="if(event.key==='Enter') searchGroups()">
-                        <button class="btn btn-success btn-sm" onclick="promptCreateGroup()">Create Group</button>
+                    <div class="groups-hero-actions">
+                        <button class="btn btn-success" onclick="promptCreateGroup()">+ Create Group</button>
+                        <button class="btn btn-info" onclick="clearGroupSearch()">Reset Search</button>
+                    </div>
+                </div>
+
+                <div class="groups-search-panel">
+                    <input type="text" id="group-search" class="form-control" placeholder="Search groups by name..." onkeydown="if(event.key==='Enter') searchGroups()">
+                    <button class="btn" onclick="searchGroups()">Search</button>
+                </div>
+
+                <div class="groups-highlight-grid">
+                    <div class="groups-highlight-item">
+                        <h4>Why join a group?</h4>
+                        <ul>
+                            <li>Play coordinated events and matches.</li>
+                            <li>Unlock rank-based permissions.</li>
+                            <li>Build community projects together.</li>
+                        </ul>
+                    </div>
+                    <div class="groups-highlight-item">
+                        <h4>Group starter checklist</h4>
+                        <ul>
+                            <li>Set logo, description, and shout.</li>
+                            <li>Create 2-3 clear forum categories.</li>
+                            <li>Run one kickoff event this week.</li>
+                        </ul>
                     </div>
                 </div>
 
                 <div id="group-search-results-container" style="display:none; margin-bottom: 20px;">
-                    <h3 style="border-bottom: 1px solid #eee; padding-bottom: 5px;">Search Results</h3>
-                    <button class="btn btn-sm btn-info mb-10" onclick="clearGroupSearch()">Clear Search</button>
+                    <h3 class="groups-section-title">Search Results</h3>
                     <div id="group-search-grid" class="game-grid"></div>
                 </div>
 
                 <div id="group-discover-container">
-                    <h3 style="border-bottom: 1px solid #eee; padding-bottom: 5px;">Most Active Groups</h3>
+                    <h3 class="groups-section-title">Most Active Groups</h3>
                     <div id="groups-active-grid" class="game-grid mb-10"></div>
 
-                    <h3 style="border-bottom: 1px solid #eee; padding-bottom: 5px;">Most Members</h3>
+                    <h3 class="groups-section-title">Biggest Communities</h3>
                     <div id="groups-members-grid" class="game-grid mb-10"></div>
 
-                    <h3 style="border-bottom: 1px solid #eee; padding-bottom: 5px;">Recently Created</h3>
+                    <h3 class="groups-section-title">Freshly Created</h3>
                     <div id="groups-recent-grid" class="game-grid mb-10"></div>
                 </div>
             </div>
         </div>
 
         <div id="group-create-modal" class="modal-overlay" style="display:none;">
-            <div class="modal">
+            <div class="modal-box group-modal-box" style="max-width:560px; width:95%; text-align:left;">
                 <h3 style="margin-top:0;">Create Group (100 SC)</h3>
-                <p style="font-size:12px; color:#666;">Pick a name, add a description, and optionally upload a group icon.</p>
-                <input id="group-create-name" class="form-control mb-10" maxlength="60" placeholder="Group name">
-                <textarea id="group-create-description" class="form-control mb-10" maxlength="800" placeholder="Describe your group..." style="min-height:90px;"></textarea>
-                <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
+                <p style="font-size:13px; color:#5f6682; margin-top:0;">Create a clear identity, add goals, and launch your community in minutes.</p>
+                <label style="font-weight:700; font-size:12px; color:#3b4260;">Group Name</label>
+                <input id="group-create-name" class="form-control mb-10" maxlength="60" placeholder="Ex: Neon Builders Guild">
+                <label style="font-weight:700; font-size:12px; color:#3b4260;">Description</label>
+                <textarea id="group-create-description" class="form-control mb-10" maxlength="800" placeholder="What your group does, who it's for, and what members can expect." style="min-height:100px;"></textarea>
+                <div class="group-modal-upload-row">
                     <button class="btn btn-sm btn-info" onclick="pickCreateGroupLogo()">Upload Group Icon</button>
                     <span id="group-create-logo-label" style="font-size:12px; color:#777;">No file selected</span>
                 </div>
-                <img id="group-create-logo-preview" alt="Group logo preview" style="display:none; width:88px; height:88px; border-radius:10px; object-fit:cover; border:1px solid #ccd4dd; margin-bottom:10px;">
-                <div style="display:flex; gap:10px;">
-                    <button class="btn btn-success" onclick="submitCreateGroupModal()">Create Group</button>
-                    <button class="btn btn-danger" onclick="closeCreateGroupModal()">Close</button>
+                <img id="group-create-logo-preview" alt="Group logo preview" style="display:none; width:88px; height:88px; border-radius:10px; object-fit:cover; border:1px solid #ccd4dd; margin-bottom:12px;">
+                <div class="group-modal-footer">
+                    <button class="btn btn-success" onclick="submitCreateGroupModal()">Launch Group</button>
+                    <button class="btn btn-danger" onclick="closeCreateGroupModal()">Cancel</button>
                 </div>
             </div>
         </div>
