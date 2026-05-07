@@ -222,6 +222,24 @@ const saveDB = () => {
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2));
 };
 
+const removeFakeBotUsers = () => {
+    const botPattern = /(bot|fake|test\s*bot|autobot|viewbot)/i;
+    const before = db.users.length;
+    db.users = db.users.filter(u => !botPattern.test(String(u.username || '')));
+    if (db.users.length !== before) {
+        const validUserIds = new Set(db.users.map(u => String(u.id)));
+        Object.keys(db.sessions || {}).forEach(token => {
+            if (!validUserIds.has(String(db.sessions[token]))) delete db.sessions[token];
+        });
+        Object.keys(onlineUsers || {}).forEach(uid => {
+            if (!validUserIds.has(String(uid))) delete onlineUsers[uid];
+        });
+        saveDB();
+        console.log(`Removed ${before - db.users.length} fake/bot users.`);
+    }
+};
+removeFakeBotUsers();
+
 // --- Security / Auth Helpers ---
 const hashPassword = (password) => {
     const salt = crypto.randomBytes(16).toString('hex');

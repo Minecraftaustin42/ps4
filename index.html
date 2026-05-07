@@ -5483,14 +5483,14 @@ let customGizmo = null;
             customGizmo.visible = false;
             edScene.add(customGizmo);
 
-            const ambLight = new THREE.AmbientLight( 0xf7fbff, 0.78 );
+            const ambLight = new THREE.AmbientLight( 0xffffff, 1.15 );
             ambLight.isAmbientLight = true;
             edAmbientLight = ambLight;
             edScene.add( ambLight );
-            const hemiLight = new THREE.HemisphereLight(0xdff2ff, 0x7f8f9f, 0.3);
+            const hemiLight = new THREE.HemisphereLight(0xffffff, 0x8d8d8d, 1.15);
             edScene.add(hemiLight);
-            const dirLight = new THREE.DirectionalLight( 0xfff6de, 0.88 );
-            dirLight.position.set( 40, 58, 22 );
+            const dirLight = new THREE.DirectionalLight( 0xffffff, 1.25 );
+            dirLight.position.set( 60, 90, 35 );
             edDirectionalLight = dirLight;
             edScene.add( dirLight );
 
@@ -7574,10 +7574,10 @@ Keep playing together for more daily rewards.`, 'Aww!');
 const DEFAULT_STEP_HEIGHT = 1.0;
 const NOSTALGIA_GRAPHICS_DEFAULTS = {
     gravity: 0.08,
-    skyColor: '#8dc8ff',
-    brightness: 0.78,
-    sunIntensity: 0.88,
-    fogDistance: 980,
+    skyColor: '#8fd3ff',
+    brightness: 1.15,
+    sunIntensity: 1.25,
+    fogDistance: 260,
     graphicsQuality: 'high',
     exposure: 0.98,
     globalShadows: true
@@ -8702,8 +8702,8 @@ document.addEventListener('keydown', (e) => {
                 edScene.background = new THREE.Color(edData.settings.skyColor);
                 edScene.children.forEach(c => { if (c.isAmbientLight) c.intensity = edData.settings.brightness; });
                 if (edDirectionalLight) edDirectionalLight.intensity = Math.max(0.45, edData.settings.sunIntensity || NOSTALGIA_GRAPHICS_DEFAULTS.sunIntensity);
-                const fogDistance = Math.max(280, edData.settings.fogDistance || NOSTALGIA_GRAPHICS_DEFAULTS.fogDistance);
-                edScene.fog = new THREE.Fog(edData.settings.skyColor, fogDistance * 0.28, fogDistance);
+                const fogDistance = Math.max(260, edData.settings.fogDistance || NOSTALGIA_GRAPHICS_DEFAULTS.fogDistance);
+                edScene.fog = new THREE.Fog(edData.settings.skyColor, fogDistance * 0.3461538462, fogDistance);
                 if (edRenderer) {
                     const q = (edData.settings.graphicsQuality === 'ultra') ? 'ultra' : 'high';
                     edRenderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -10158,9 +10158,9 @@ const applyPlayGraphicsSettings = (settings = {}) => {
             if (!playScene || !playRenderer) return;
             const quality = settings.graphicsQuality === 'ultra' ? 'ultra' : 'high';
             const exposure = Math.max(0.65, Math.min(1.6, (settings.exposure || NOSTALGIA_GRAPHICS_DEFAULTS.exposure)));
-            const fogDistance = Math.max(280, settings.fogDistance || NOSTALGIA_GRAPHICS_DEFAULTS.fogDistance);
+            const fogDistance = Math.max(260, settings.fogDistance || NOSTALGIA_GRAPHICS_DEFAULTS.fogDistance);
 
-            playScene.fog = new THREE.Fog(settings.skyColor || '#8dc8ff', fogDistance * 0.28, fogDistance);
+            playScene.fog = new THREE.Fog(settings.skyColor || '#8fd3ff', fogDistance * 0.3461538462, fogDistance);
             playRenderer.toneMapping = THREE.ACESFilmicToneMapping;
             playRenderer.toneMappingExposure = exposure;
             playRenderer.outputEncoding = THREE.sRGBEncoding;
@@ -10209,16 +10209,16 @@ const startGame = () => {
                 playScene = new THREE.Scene();
                 playCamera = new THREE.PerspectiveCamera( 50, 16/9, 1, 2000 );
 
-                const ambLight = new THREE.AmbientLight( 0xf6fbff, 0.78 );
+                const ambLight = new THREE.AmbientLight( 0xffffff, 1.15 );
                 ambLight.isAmbientLight = true;
                 playAmbientLight = ambLight;
                 playScene.add( ambLight );
 
-                const hemiLight = new THREE.HemisphereLight(0xe6f5ff, 0x7e8c98, 0.3);
+                const hemiLight = new THREE.HemisphereLight(0xffffff, 0x8d8d8d, 1.15);
                 playScene.add(hemiLight);
 
-                const dirLight = new THREE.DirectionalLight( 0xfff4dc, 0.88 );
-                dirLight.position.set( 42, 56, 26 );
+                const dirLight = new THREE.DirectionalLight( 0xffffff, 1.25 );
+                dirLight.position.set( 60, 90, 35 );
                 playDirectionalLight = dirLight;
                 playScene.add( dirLight );
 
